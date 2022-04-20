@@ -24,11 +24,16 @@ searchSubmit.addEventListener("click", ()=>{
 
 // get the datas from API
   async function fetchAPI(){
-    const baseURL = `https://api.edamam.com/search?q=${searchQuery}&app_id=${APP_ID}&app_key=${APP_key}&from=0&to=50`;
+    try {
+      const baseURL = `https://api.edamam.com/search?q=${searchQuery}&app_id=${APP_ID}&app_key=${APP_key}&from=0&to=50`;
     const response = await fetch(baseURL); 
     const data = await response.json();
     generateHTML(data.hits)
     console.log(data);
+    if(!response.ok) throw new Error("Failed to get the datas");
+    } catch (error) {
+      console.log(error.message)
+    }
   }
 
 // append the datas to html
